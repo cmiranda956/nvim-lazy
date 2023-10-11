@@ -4,6 +4,17 @@
 -- Adds additional commands as well to manage the behavior
 return {
   'neovim/nvim-lspconfig',
+  dependencies = {
+    -- Automatically install LSPs to stdpath for neovim
+    { 'williamboman/mason.nvim', config = true },
+    'williamboman/mason-lspconfig.nvim',
+
+    -- Useful status updates for LSP
+    { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
+
+    -- Additional lua configuration, makes nvim stuff amazing!
+    'folke/neodev.nvim',
+  },
   config = function()
     -- Switch for controlling whether you want autoformatting.
     --  Use :KickstartFormatToggle to toggle autoformatting on or off
