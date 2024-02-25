@@ -21,48 +21,9 @@ require('lazy').setup({
     'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
     -- Detect tabstop and shiftwidth automatically
-    'tpope/vim-sleuth',
+    -- 'tpope/vim-sleuth',
     -- Useful plugin to show you pending keybinds.
     { 'folke/which-key.nvim',   opts = {} },
-    {
-        -- Adds git related signs to the gutter, as well as utilities for managing changes
-        'lewis6991/gitsigns.nvim',
-        opts = {
-            -- See `:help gitsigns.txt`
-            signs = {
-                add = { text = '+' },
-                change = { text = '~' },
-                delete = { text = '_' },
-                topdelete = { text = '‾' },
-                changedelete = { text = '~' },
-            },
-            on_attach = function(bufnr)
-                vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk,
-                    { buffer = bufnr, desc = 'Preview git hunk' })
-
-                -- don't override the built-in and fugitive keymaps
-                local gs = package.loaded.gitsigns
-                vim.keymap.set({ 'n', 'v' }, ']c', function()
-                    if vim.wo.diff then return ']c' end
-                    vim.schedule(function() gs.next_hunk() end)
-                    return '<Ignore>'
-                end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
-                vim.keymap.set({ 'n', 'v' }, '[c', function()
-                    if vim.wo.diff then return '[c' end
-                    vim.schedule(function() gs.prev_hunk() end)
-                    return '<Ignore>'
-                end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
-            end,
-        },
-    },
-    {
-        -- Add indentation guides even on blank lines
-        'lukas-reineke/indent-blankline.nvim',
-        -- Enable `lukas-reineke/indent-blankline.nvim`
-        -- See `:help indent_blankline.txt`
-        main = "ibl",
-        opts = {},
-    },
     -- "gc" to comment visual regions/lines
     { 'numToStr/Comment.nvim',  opts = {} },
     { import = 'typhon.plugins' },
@@ -90,18 +51,21 @@ set.lazyredraw = true       --redraw screen only when necessary
 set.number = true           --number lines
 set.relativenumber = true   --shows number relative to current line
 set.autoindent = true       --applies indentation from current line to next line with <Enter>
+set.smartindent = true
 set.showmatch = true        --highlights matching ()[]''""
 set.wildmenu = true         --vim command line completion with <Tab>
+-- TAB configuration
+set.tabstop = 4             --makes backspace key treat four spaces like a tab
 set.expandtab = true        --inserts space characters for tabs
 set.shiftwidth = 4          --number of space characters used for indentation
---set.softtabstop = 4
-set.tabstop = 2             --makes backspace key treat four spaces like a tab
-set.ignorecase = true       --case insensitive search
-set.hlsearch = true         --highlight search results
-set.incsearch = true        --incrementally highlight search results
-set.scrolloff = 10          --maintain 10 lines above cursor when scrolling top/bottom
-set.sidescrolloff = 10      --maintain 10 lines above cursor when scrolling side to side
-set.wrap = false            --no line wrapping
+set.softtabstop = 4
+
+set.ignorecase = true  --case insensitive search
+set.hlsearch = true    --highlight search result
+set.incsearch = true   --incrementally highlight search results
+set.scrolloff = 10     --maintain 10 lines above cursor when scrolling top/bottom
+set.sidescrolloff = 10 --maintain 10 lines above cursor when scrolling side to side
+set.wrap = false       --no line wrapping
 set.clipboard = "unnamedplus"
 
 nmap("<leader><space>", ":nohlsearch<CR>")
@@ -132,8 +96,8 @@ vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently o
 vim.keymap.set('n', '<leader>/', function()
     -- You can pass additional configuration to telescope to change theme, layout, etc.
     builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        winblend = 10,
-        previewer = false,
+        -- winblend = 10,
+        -- previewer = false,
     })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
